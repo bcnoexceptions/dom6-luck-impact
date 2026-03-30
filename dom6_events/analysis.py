@@ -87,6 +87,8 @@ def compute_pool_stats(
     avg_landgold_bad: float = _weighted_average(
         bad, lambda e: float(e.landgold)
     )
+    avg_gems_good: float = _weighted_average(good, lambda e: e.gems)
+    avg_gems_bad: float = _weighted_average(bad, lambda e: e.gems)
 
     return EventPoolStats(
         luck_scale=luck_scale,
@@ -102,6 +104,9 @@ def compute_pool_stats(
         avg_landgold_per_event=(
             p_good * avg_landgold_good + p_bad * avg_landgold_bad
         ),
+        avg_gems_good=avg_gems_good,
+        avg_gems_bad=avg_gems_bad,
+        avg_gems_per_event=(p_good * avg_gems_good + p_bad * avg_gems_bad),
     )
 
 
@@ -174,6 +179,7 @@ def analyze(all_events: Sequence[Event]) -> list[ResultRow]:
                 provinces=provinces,
                 expected_events_per_turn=ev_per_turn,
                 expected_gold_per_turn=ev_per_turn * pool.avg_gold_per_event,
+                expected_gems_per_turn=ev_per_turn * pool.avg_gems_per_event,
                 expected_landgold_per_turn=(
                     ev_per_turn * pool.avg_landgold_per_event
                 ),

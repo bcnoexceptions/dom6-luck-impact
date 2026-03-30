@@ -1,5 +1,5 @@
 """
-Dominions 6 random-event gold-impact analysis.
+Dominions 6 random-event gold and gem impact analysis.
 
 Public API
 ----------

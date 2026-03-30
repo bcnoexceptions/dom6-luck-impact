@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
 """
-Analyze the expected gold impact of random events across Luck scales in
+Analyze the expected gold and gem impact of random events across Luck scales in
 Dominions 6.
 
 This is a thin entry point.  All logic lives in the ``dom6_events`` package.
@@ -28,7 +28,7 @@ def main() -> None:
         else:
             continue
 
-        print(f"Parsed {len(events)} gold-related events from {filename}")
+        print(f"Parsed {len(events)} qualifying events from {filename}")
         all_events.extend(events)
 
     good_count: int = sum(1 for e in all_events if e.is_good)

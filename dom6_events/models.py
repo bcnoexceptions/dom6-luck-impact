@@ -39,6 +39,7 @@ class Event:
         landgold: Permanent province-income change per turn.
         taxboost: One-turn percentage modifier on province income
                   (e.g. ``taxboost 100`` → +100 % income for one turn).
+        gems:     Expected one-time gem impact from gem effect tags.
     """
 
     rarity: int
@@ -47,6 +48,7 @@ class Event:
     gold: int
     landgold: int
     taxboost: int
+    gems: float = 0.0
 
     # -- derived properties --------------------------------------------------
 
@@ -110,6 +112,9 @@ class EventPoolStats:
         avg_landgold_good:      Weighted-average landgold across good events.
         avg_landgold_bad:       Weighted-average landgold across bad events.
         avg_landgold_per_event: Combined average landgold.
+        avg_gems_good:          Weighted-average gem impact across good events.
+        avg_gems_bad:           Weighted-average gem impact across bad events.
+        avg_gems_per_event:     Combined average gem impact.
     """
 
     luck_scale: int
@@ -123,6 +128,9 @@ class EventPoolStats:
     avg_landgold_good: float
     avg_landgold_bad: float
     avg_landgold_per_event: float
+    avg_gems_good: float
+    avg_gems_bad: float
+    avg_gems_per_event: float
 
 
 # ---------------------------------------------------------------------------
@@ -134,6 +142,7 @@ _CSV_FIELDS: tuple[str, ...] = (
     "Provinces",
     "Expected Events/Turn",
     "Expected Gold/Turn",
+    "Expected Gems/Turn",
     "Expected Landgold/Turn",
     "Avg Gold per Good Event",
     "Avg Gold per Bad Event",
@@ -141,6 +150,9 @@ _CSV_FIELDS: tuple[str, ...] = (
     "Avg Landgold per Good Event",
     "Avg Landgold per Bad Event",
     "Avg Landgold per Event",
+    "Avg Gems per Good Event",
+    "Avg Gems per Bad Event",
+    "Avg Gems per Event",
 )
 
 
@@ -154,6 +166,7 @@ class ResultRow:
         provinces:               Number of provinces in the scenario.
         expected_events_per_turn: Expected random events per turn.
         expected_gold_per_turn:  Expected gold per turn from events.
+        expected_gems_per_turn:  Expected gems per turn from events.
         expected_landgold_per_turn: Expected permanent income change per turn.
     """
 
@@ -161,6 +174,7 @@ class ResultRow:
     provinces: int
     expected_events_per_turn: float
     expected_gold_per_turn: float
+    expected_gems_per_turn: float
     expected_landgold_per_turn: float
 
     def as_csv_dict(self) -> dict[str, int | float]:
@@ -171,6 +185,7 @@ class ResultRow:
             "Provinces": self.provinces,
             "Expected Events/Turn": round(self.expected_events_per_turn, 4),
             "Expected Gold/Turn": round(self.expected_gold_per_turn, 2),
+            "Expected Gems/Turn": round(self.expected_gems_per_turn, 4),
             "Expected Landgold/Turn": round(self.expected_landgold_per_turn, 4),
             "Avg Gold per Good Event": round(p.avg_gold_good, 2),
             "Avg Gold per Bad Event": round(p.avg_gold_bad, 2),
@@ -178,6 +193,9 @@ class ResultRow:
             "Avg Landgold per Good Event": round(p.avg_landgold_good, 2),
             "Avg Landgold per Bad Event": round(p.avg_landgold_bad, 2),
             "Avg Landgold per Event": round(p.avg_landgold_per_event, 2),
+            "Avg Gems per Good Event": round(p.avg_gems_good, 4),
+            "Avg Gems per Bad Event": round(p.avg_gems_bad, 4),
+            "Avg Gems per Event": round(p.avg_gems_per_event, 4),
         }
 
     @staticmethod

@@ -23,6 +23,7 @@ from dom6_events.constants import (
     LUCK_SCALE_MIN,
     RELEVANT_RARITIES,
 )
+from dom6_events.gem_effects import parse_expected_gem_impact
 from dom6_events.models import Event
 
 
@@ -117,6 +118,7 @@ def _build_event(
         gold=_parse_int_field(effects, gold_prefix),
         landgold=_parse_int_field(effects, landgold_prefix),
         taxboost=_parse_int_field(effects, taxboost_prefix),
+        gems=parse_expected_gem_impact(effects),
     )
     return event if event.has_gold_effect() else None
 
