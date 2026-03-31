@@ -9,7 +9,8 @@ Two formats are supported:
   like ``#rarity``, ``#gold``, ``#req_luck``, etc.).
 
 Both parsers apply the same filtering and rarity criteria, returning only
-general random events that have at least one gold-related effect.
+general random events that have at least one modeled economic effect
+(gold/landgold/taxboost/gems).
 """
 
 from __future__ import annotations
@@ -99,7 +100,7 @@ def _build_event(
 ) -> Event | None:
     """Construct an :class:`Event` from raw text fields, or ``None`` if the
     event should be skipped (wrong rarity, filtered, impossible luck range,
-    or no gold-related effect)."""
+    or no modeled economic effect)."""
     if rarity not in RELEVANT_RARITIES:
         return None
     if _should_filter(requirements):

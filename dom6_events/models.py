@@ -84,8 +84,18 @@ class Event:
         return self.luck_min <= luck_scale <= self.luck_max
 
     def has_gold_effect(self) -> bool:
-        """Whether this event carries any gold-related effect."""
-        return self.gold != 0 or self.landgold != 0 or self.taxboost != 0
+        """Whether this event carries any economic effect we model.
+
+        Historically this method only checked gold/landgold/taxboost, but gem
+        effects are also part of the analysis output, so gem-only events should
+        be included as well.
+        """
+        return (
+            self.gold != 0
+            or self.landgold != 0
+            or self.taxboost != 0
+            or self.gems != 0.0
+        )
 
 
 # ---------------------------------------------------------------------------

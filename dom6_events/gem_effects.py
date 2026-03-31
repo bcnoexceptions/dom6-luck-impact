@@ -30,7 +30,7 @@ _VIS_PATTERN: Final[re.Pattern[str]] = re.compile(
 )
 
 _GEMLOSS_PATTERN: Final[re.Pattern[str]] = re.compile(
-    r"(?<![a-z0-9_])#?(gemloss|gemlosssmall|gemlosslarge)(?:\s+(-?\d+))?"
+    r"(?<![a-z0-9_])#?(gemloss|gemlosssmall|gemlosslarge)(?:\s+([A-Za-z0-9_]+))?"
 )
 
 _GEMLOSS_BASE: Final[dict[str, float]] = {
@@ -45,6 +45,8 @@ def _is_all_gems(token: str | None) -> bool:
 
 
 def _gemloss_value(tag: str, arg: str | None) -> float:
+    if _is_all_gems(arg):
+        return _GEMLOSS_BASE[tag] * 8.0
     if arg in {"53", "56"}:
         return -28.0
     return _GEMLOSS_BASE[tag]
